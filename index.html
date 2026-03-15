@@ -81,7 +81,6 @@
       }
     }
 
-    /* NAV */
     nav {
       position: fixed;
       top: 0;
@@ -93,6 +92,13 @@
       align-items: center;
       padding: 1.5rem 3rem;
       mix-blend-mode: difference;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    nav.nav-hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-100%);
     }
 
     .nav-logo {
@@ -1774,6 +1780,19 @@
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursor-ring');
     let mx = 0, my = 0, rx = 0, ry = 0;
+
+    // NAV HIDE ON SCROLL
+    let lastScrollY = window.scrollY;
+    const navbar = document.querySelector('nav');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50 && window.scrollY > lastScrollY) {
+        navbar.classList.add('nav-hidden');
+      } else {
+        navbar.classList.remove('nav-hidden');
+      }
+      lastScrollY = window.scrollY;
+    });
     if (!isTouchDevice()) {
       document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
       function animCursor() {
