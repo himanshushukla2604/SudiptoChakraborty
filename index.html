@@ -488,8 +488,34 @@
       background: var(--gray2);
     }
 
+    .work-item:nth-child(2) .work-thumb,
+    .work-item:nth-child(3) .work-thumb,
+    .work-item:nth-child(4) .work-thumb,
+    .work-item:nth-child(5) .work-thumb {
+      aspect-ratio: 3/4;
+    }
+
     .work-item:nth-child(6) .work-thumb {
-      aspect-ratio: 21/6;
+      aspect-ratio: 16/7;
+    }
+
+    /* Items 01 & 02: show video as thumbnail by default */
+    .work-item:nth-child(1) .work-hover-video,
+    .work-item:nth-child(2) .work-hover-video,
+    .work-item:nth-child(3) .work-hover-video,
+    .work-item:nth-child(4) .work-hover-video,
+    .work-item:nth-child(5) .work-hover-video,
+    .work-item:nth-child(6) .work-hover-video {
+      opacity: 1;
+    }
+
+    .work-item:nth-child(1) .work-thumb-bg,
+    .work-item:nth-child(2) .work-thumb-bg,
+    .work-item:nth-child(3) .work-thumb-bg,
+    .work-item:nth-child(4) .work-thumb-bg,
+    .work-item:nth-child(5) .work-thumb-bg,
+    .work-item:nth-child(6) .work-thumb-bg {
+      opacity: 0;
     }
 
     .work-thumb-bg {
@@ -512,7 +538,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       opacity: 0;
       transition: opacity 0.4s ease;
       z-index: 1;
@@ -544,6 +570,43 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--accent);
+    }
+
+    /* Mute/Unmute toggle on work videos */
+    .vid-mute-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 5;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s, background 0.3s;
+    }
+
+    .work-item:hover .vid-mute-btn,
+    .reel-card.active:hover .vid-mute-btn,
+    .vid-mute-btn.show {
+      opacity: 1;
+    }
+
+    .vid-mute-btn:hover {
+      background: rgba(232, 255, 0, 0.25);
+    }
+
+    .vid-mute-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
     }
 
     .work-info {
@@ -1143,6 +1206,124 @@
       gap: 1.2rem;
     }
 
+    /* ── REEL CAROUSEL (one8 style) ─────────────────── */
+    .reel-carousel {
+      position: relative;
+      width: 100%;
+      padding: 1rem 0 0;
+      user-select: none;
+    }
+
+    .reel-carousel-track-outer {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .reel-carousel-track {
+      display: flex;
+      align-items: center;
+      will-change: transform;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .reel-card {
+      flex: 0 0 28%;
+      margin: 0 1.2%;
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #111;
+      aspect-ratio: 9/16;
+      transform: scale(0.84);
+      opacity: 0.45;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease;
+      cursor: pointer;
+    }
+
+    .reel-card.active {
+      transform: scale(1);
+      opacity: 1;
+      cursor: default;
+    }
+
+    .reel-card video,
+    .reel-card iframe {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: none;
+      display: block;
+    }
+
+    .reel-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--white);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      backdrop-filter: blur(6px);
+      font-size: 1.3rem;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .reel-nav-btn:hover {
+      background: rgba(232, 255, 0, 0.15);
+      border-color: var(--accent);
+    }
+
+    .reel-nav-btn.prev {
+      left: 0.6rem;
+    }
+
+    .reel-nav-btn.next {
+      right: 0.6rem;
+    }
+
+    .reel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 1.2rem;
+    }
+
+    .reel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gray2);
+      transition: background 0.3s, width 0.3s;
+      cursor: pointer;
+    }
+
+    .reel-dot.active {
+      background: var(--accent);
+      width: 18px;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 768px) {
+      .reel-card {
+        flex: 0 0 62%;
+        margin: 0 4%;
+        transform: scale(0.88);
+        opacity: 0.45;
+      }
+
+      .reel-nav-btn {
+        display: none;
+      }
+    }
+
     .video-card {
       position: relative;
       overflow: hidden;
@@ -1284,11 +1465,11 @@
   <nav>
     <a href="#hero" class="nav-logo">Sudipto Chakraborty</a>
     <ul class="nav-links">
-      <li><a href="#showreel">Showreel</a></li>
+      <!-- <li><a href="#showreel">Showreel</a></li> -->
       <li><a href="#work">Work</a></li>
       <li><a href="#channels">Channels</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
+      <!-- <li><a href="#services">Services</a></li> -->
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -1309,7 +1490,7 @@
       </p>
       <div class="hero-cta">
         <a href="#work" class="btn">View Work</a>
-        <a href="#contact" class="btn btn-outline">Hire Me</a>
+        <a href="#contact" class="btn btn-outline">Contact Me</a>
       </div>
     </div>
     <div class="hero-scroll">
@@ -1350,7 +1531,7 @@
   </div>
 
   <!-- SHOWREEL -->
-  <section id="showreel">
+  <!-- <section id="showreel">
     <div class="section-label">01 — Showreel</div>
     <h2 class="section-title reveal">THE REEL</h2>
     <div id="reel-container" class="reel-wrapper">
@@ -1369,7 +1550,7 @@
           Showreel</p>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- WORK GALLERY -->
   <section id="work">
@@ -1379,73 +1560,78 @@
       <div class="work-item reveal">
         <div class="work-thumb">
           <video muted loop playsinline preload="metadata" class="work-hover-video"
-            src="https://pub-df5c75355b844b719104050e9261b329.r2.dev/website 1.mp4"></video>
+            poster="https://pub-df5c75355b844b719104050e9261b329.r2.dev/1_thumb_1.6.1.png"
+            data-hls="https://pub-df5c75355b844b719104050e9261b329.r2.dev/mmm_main_event/index.m3u8"></video>
           <div class="work-thumb-bg bg-1"><span class="bg-num">01</span></div>
-          <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div>
+          <!-- <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div> -->
         </div>
         <div class="work-info">
-          <div class="work-title">Brand Campaign <span class="work-tag">Commercial</span></div>
-          <div class="work-meta">Client Name · 2024</div>
+          <div class="work-title">Event film <span class="work-tag">Commercial</span></div>
+          <div class="work-meta">Malgudi Mylari Mane · 2026</div>
         </div>
       </div>
       <div class="work-item reveal" style="transition-delay:0.1s">
         <div class="work-thumb">
           <video muted loop playsinline preload="metadata" class="work-hover-video"
-            src="https://pub-df5c75355b844b719104050e9261b329.r2.dev/website 1.mp4"></video>
+            poster="https://pub-df5c75355b844b719104050e9261b329.r2.dev/2_thumb_1.2.1.png"
+            src="https://pub-df5c75355b844b719104050e9261b329.r2.dev/Sapa_SF.mp4"></video>
           <div class="work-thumb-bg bg-2"><span class="bg-num">02</span></div>
-          <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div>
+          <!-- <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div> -->
         </div>
         <div class="work-info">
-          <div class="work-title">Artist MV <span class="work-tag">Music Video</span></div>
-          <div class="work-meta">Artist Name · 2024</div>
+          <div class="work-title">SAPA meets Spirit Forward <span class="work-tag">Brand film</span></div>
+          <div class="work-meta">SAPA x Spirit Forward · 2025</div>
         </div>
       </div>
       <div class="work-item reveal" style="transition-delay:0.1s">
         <div class="work-thumb">
-          <video muted loop playsinline preload="metadata" class="work-hover-video"
-            src="https://pub-df5c75355b844b719104050e9261b329.r2.dev/website 1.mp4"></video>
+          <video muted loop playsinline preload="none" class="work-hover-video"
+            poster="https://pub-df5c75355b844b719104050e9261b329.r2.dev/hanoz_thumb_1.4.1.png"
+            data-hls="https://pub-df5c75355b844b719104050e9261b329.r2.dev/nenapu_vid/index.m3u8"></video>
           <div class="work-thumb-bg bg-3"><span class="bg-num">03</span></div>
-          <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div>
+          <!-- <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div> -->
         </div>
         <div class="work-info">
-          <div class="work-title">Short Doc <span class="work-tag">Documentary</span></div>
-          <div class="work-meta">Self-directed · 2023</div>
+          <div class="work-title">Nenapu x Chef Hanoze<span class="work-tag">Brand film</span></div>
+          <div class="work-meta">Nenapu · 2025</div>
         </div>
       </div>
       <div class="work-item reveal" style="transition-delay:0.2s">
         <div class="work-thumb">
           <video muted loop playsinline preload="metadata" class="work-hover-video"
-            src="https://pub-df5c75355b844b719104050e9261b329.r2.dev/website 1.mp4"></video>
+            poster="https://pub-df5c75355b844b719104050e9261b329.r2.dev/active_thumb_1.3.1.png"
+            src="https://pub-df5c75355b844b719104050e9261b329.r2.dev/active_QR_navi.mp4"></video>
           <div class="work-thumb-bg bg-4"><span class="bg-num">04</span></div>
-          <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div>
+          <!-- <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div> -->
         </div>
         <div class="work-info">
           <div class="work-title">Product Launch <span class="work-tag">Corporate</span></div>
-          <div class="work-meta">Brand Name · 2023</div>
+          <div class="work-meta">NAVI x Active QR · 2025</div>
         </div>
       </div>
       <div class="work-item reveal" style="transition-delay:0.3s">
         <div class="work-thumb">
           <video muted loop playsinline preload="metadata" class="work-hover-video"
-            src="https://pub-df5c75355b844b719104050e9261b329.r2.dev/website 1.mp4"></video>
+            src="https://pub-df5c75355b844b719104050e9261b329.r2.dev/cocktail_teaser.mp4"></video>
           <div class="work-thumb-bg bg-5"><span class="bg-num">05</span></div>
-          <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div>
+          <!-- <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div> -->
         </div>
         <div class="work-info">
-          <div class="work-title">Social Series <span class="work-tag">Social</span></div>
-          <div class="work-meta">Creator · 2024</div>
+          <div class="work-title">The Goa Series <span class="work-tag">Brand Film</span></div>
+          <div class="work-meta">Maverick & Farmer coffee · 2025</div>
         </div>
       </div>
       <div class="work-item reveal" style="transition-delay:0.1s">
         <div class="work-thumb">
           <video muted loop playsinline preload="metadata" class="work-hover-video"
-            src="https://pub-df5c75355b844b719104050e9261b329.r2.dev/website 1.mp4"></video>
+            poster="https://pub-df5c75355b844b719104050e9261b329.r2.dev/6_thumb_1.1.1.png"
+            src="https://pub-df5c75355b844b719104050e9261b329.r2.dev/Car_comm.mp4"></video>
           <div class="work-thumb-bg bg-6"><span class="bg-num">06</span></div>
-          <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div>
+          <!-- <div class="work-overlay"><span class="work-overlay-text">View Project →</span></div> -->
         </div>
         <div class="work-info">
-          <div class="work-title">Feature Brand Film <span class="work-tag">Brand Film</span></div>
-          <div class="work-meta">Brand Name · 2024</div>
+          <div class="work-title">Nothing moves us like Citroën <span class="work-tag">Brand Film</span></div>
+          <div class="work-meta">Citroën India · 2023</div>
         </div>
       </div>
     </div>
@@ -1460,7 +1646,7 @@
       at some of the work — watch the videos directly below.</p>
 
     <!-- CHANNEL 1 -->
-    <div class="channel-block reveal">
+    <!-- <div class="channel-block reveal">
       <div class="channel-header">
         <div class="channel-meta">
           <div class="channel-name">Channel Name One</div>
@@ -1511,58 +1697,19 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- CHANNEL 2 -->
-    <div class="channel-block reveal">
-      <div class="channel-header">
-        <div class="channel-meta">
-          <div class="channel-name">Mumbai Foodie</div>
-          <div class="channel-sub">Niche · 000K Subscribers</div>
-          <div class="channel-desc">Brief description of the channel and your role here.</div>
-        </div>
-        <a href="https://www.instagram.com/mumbaifoodie/?hl=en" target="_blank" rel="noopener" class="channel-link">
-          <svg viewBox="0 0 24 24">
-            <path
-              d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1C4.5 20.5 12 20.5 12 20.5s7.5 0 9.4-.6a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z" />
-          </svg>
-          Visit Channel
-        </a>
-      </div>
-      <div class="videos-row">
-        <div class="video-card" style="background: transparent; cursor: default;">
-          <div class="video-thumb" style="aspect-ratio: 4/5; background: transparent;">
-            <iframe width="100%" height="100%"
-              style="position: absolute; top:0; left:0; border: none; border-radius: 8px;"
-              src="https://www.instagram.com/p/DVQK5avApRE/embed/" allowfullscreen></iframe>
-          </div>
-        </div>
-        <div class="video-card" style="background: transparent; cursor: default;">
-          <div class="video-thumb" style="aspect-ratio: 4/5; background: transparent;">
-            <iframe width="100%" height="100%"
-              style="position: absolute; top:0; left:0; border: none; border-radius: 8px;"
-              src="https://www.instagram.com/p/DVNrAQKAsIu/embed/" allowfullscreen></iframe>
-          </div>
-        </div>
-        <div class="video-card" style="background: transparent; cursor: default;">
-          <div class="video-thumb" style="aspect-ratio: 4/5; background: transparent;">
-            <iframe width="100%" height="100%"
-              style="position: absolute; top:0; left:0; border: none; border-radius: 8px;"
-              src="https://www.instagram.com/p/DVLeneUgq1x/embed/" allowfullscreen></iframe>
-          </div>
-        </div>
-      </div>
-    </div>
+    </div> -->
 
     <!-- CHANNEL 3 -->
     <div class="channel-block reveal">
       <div class="channel-header">
         <div class="channel-meta">
-          <div class="channel-name">Bangalore Foodie</div>
-          <div class="channel-sub">Niche · 000K Followers</div>
-          <div class="channel-desc">Brief description of the channel and your role here.</div>
+          <div class="channel-name">Bangaluru.servd</div>
+          <div class="channel-sub">0 · 105K Followers</div>
+          <div class="channel-desc">Post-Production Lead for Bengaluru Servd — a food, lifestyle, and culture discovery
+            platform by Swiggy. Scaled the page from 0–100K followers while generating 70M+ views across multiple Swiggy
+            India channels through high-retention, social-first video storytelling.</div>
         </div>
-        <a href="https://www.instagram.com/bangalore.foodie/" target="_blank" rel="noopener" class="channel-link">
+        <a href="https://www.instagram.com/bengaluru.servd/" target="_blank" rel="noopener" class="channel-link">
           <svg viewBox="0 0 24 24">
             <path
               d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm3.98-10.169a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z" />
@@ -1570,30 +1717,73 @@
           Visit Channel
         </a>
       </div>
-      <div class="videos-row">
-        <div class="video-card" style="background: transparent; cursor: default;">
-          <div class="video-thumb" style="aspect-ratio: 4/5; background: transparent;">
-            <iframe width="100%" height="100%"
-              style="position: absolute; top:0; left:0; border: none; border-radius: 8px;"
-              src="https://www.instagram.com/p/DU-ygA0As9-/embed/" allowfullscreen></iframe>
+
+      <div class="reel-carousel" id="reelCarousel3">
+        <button class="reel-nav-btn prev" aria-label="Previous">&#8249;</button>
+        <button class="reel-nav-btn next" aria-label="Next">&#8250;</button>
+        <div class="reel-carousel-track-outer">
+          <div class="reel-carousel-track">
+            <div class="reel-card">
+              <iframe src="https://www.instagram.com/reel/DWnqhKQjfqC/embed/" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="reel-card">
+              <iframe src="https://www.instagram.com/reel/DYHEHNeB9tE/embed/" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="reel-card">
+              <iframe src="https://www.instagram.com/reel/DL2mpmGvaOp/embed/" allowfullscreen loading="lazy"></iframe>
+            </div>
           </div>
         </div>
-        <div class="video-card" style="background: transparent; cursor: default;">
-          <div class="video-thumb" style="aspect-ratio: 4/5; background: transparent;">
-            <iframe width="100%" height="100%"
-              style="position: absolute; top:0; left:0; border: none; border-radius: 8px;"
-              src="https://www.instagram.com/p/DUGHMJGgm2x/embed/" allowfullscreen></iframe>
-          </div>
-        </div>
-        <div class="video-card" style="background: transparent; cursor: default;">
-          <div class="video-thumb" style="aspect-ratio: 4/5; background: transparent;">
-            <iframe width="100%" height="100%"
-              style="position: absolute; top:0; left:0; border: none; border-radius: 8px;"
-              src="https://www.instagram.com/p/DUKqu9Dgnpz/embed/" allowfullscreen></iframe>
-          </div>
+        <div class="reel-dots">
+          <div class="reel-dot"></div>
+          <div class="reel-dot"></div>
+          <div class="reel-dot"></div>
         </div>
       </div>
     </div>
+
+    <!-- CHANNEL 2 -->
+    <div class="channel-block reveal">
+      <div class="channel-header">
+        <div class="channel-meta">
+          <div class="channel-name">Featured Client Work</div>
+          <div class="channel-sub"></div>
+          <div class="channel-desc">Delivered branded and social-first content for multiple F&B, lifestyle, and tech
+            brands, collaborating across campaign promos, commercial edits, event films, and digital storytelling
+            projects tailored for high-engagement platform audiences.</div>
+        </div>
+      </div>
+
+      <div class="reel-carousel" id="reelCarousel2">
+        <button class="reel-nav-btn prev" aria-label="Previous">&#8249;</button>
+        <button class="reel-nav-btn next" aria-label="Next">&#8250;</button>
+        <div class="reel-carousel-track-outer">
+          <div class="reel-carousel-track">
+            <!-- REEL 1 — replace src with your actual video URL -->
+            <div class="reel-card">
+              <video muted loop playsinline preload="metadata"
+                data-hls="https://pub-df5c75355b844b719104050e9261b329.r2.dev/denzil_cocktail/index.m3u8"></video>
+            </div>
+            <!-- REEL 2 — replace src with your actual video URL -->
+            <div class="reel-card">
+              <video muted loop playsinline preload="metadata"
+                data-hls="https://pub-df5c75355b844b719104050e9261b329.r2.dev/ground_up_nenapu/index.m3u8"></video>
+            </div>
+            <!-- REEL 3 — replace src with your actual video URL -->
+            <div class="reel-card">
+              <video muted loop playsinline preload="metadata"
+                data-hls="https://pub-df5c75355b844b719104050e9261b329.r2.dev/nenapu_vid/index.m3u8"></video>
+            </div>
+          </div>
+        </div>
+        <div class="reel-dots">
+          <div class="reel-dot"></div>
+          <div class="reel-dot"></div>
+        </div>
+      </div>
+    </div>
+
+
   </section>
 
 
@@ -1605,21 +1795,25 @@
           style="display:inline-block;width:30px;height:1px;background:var(--black);"></span> 04 — About</div>
       <h2 class="section-title reveal" style="color:var(--black)">THE EDITOR</h2>
       <div class="about-text reveal">
-        <p>Hi, I'm <strong>Sudipto Chakraborty</strong> — a video editor with a passion for building narratives that
-          leave an
-          impression. Based in Bangalore, I work with brands, artists, and creators to shape raw footage into
-          polished, purposeful stories.</p>
-        <p>My editing philosophy: every cut should serve the emotion. I specialise in commercial storytelling, music
-          videos, and documentary work — bringing technical precision and creative instinct to every project.</p>
+        <p>Hi, I'm <strong>Sudipto Chakraborty</strong> —a Senior Video Editor focused on branded storytelling,
+          commercial campaigns, and social-first content. Over the last 5 years, I’ve worked across food & beverage,
+          lifestyle, entertainment, music, automotive, and tech — creating high-retention edits for brands, artists, and
+          digital platforms.</p>
+        <p>My work ranges from branded films, commercial campaigns, and event aftermovies to music-driven edits, product
+          launches, and platform-native content designed for high audience retention. I’ve collaborated with brands,
+          agencies, creators, and artists across diverse industries — generating 70M+ views across multiple channels and
+          helping scale digital pages from 0–100K followers through strategic visual storytelling.</p>
       </div>
       <div class="skills-row reveal">
         <span class="skill-pill">Premiere Pro</span>
         <span class="skill-pill">After Effects</span>
         <span class="skill-pill">DaVinci Resolve</span>
-        <span class="skill-pill">Final Cut Pro</span>
-        <span class="skill-pill">Motion Graphics</span>
+        <span class="skill-pill">Photoshop</span>
+        <span class="skill-pill">Post-production workflows</span>
         <span class="skill-pill">Color Grading</span>
         <span class="skill-pill">Sound Design</span>
+        <span class="skill-pill">Lightroom</span>
+        <span class="skill-pill">Commercial Editing</span>
         <span class="skill-pill">VFX Compositing</span>
       </div>
       <div class="about-stats reveal">
@@ -1628,16 +1822,16 @@
           <div class="stat-label">Years Experience</div>
         </div>
         <div>
-          <div class="stat-num">120<span>+</span></div>
+          <div class="stat-num">300<span>+</span></div>
           <div class="stat-label">Projects Delivered</div>
         </div>
         <div>
-          <div class="stat-num">40<span>+</span></div>
-          <div class="stat-label">Happy Clients</div>
+          <div class="stat-num">70M<span>+</span></div>
+          <div class="stat-label">VIEWS GENERATED</div>
         </div>
         <div>
-          <div class="stat-num">12<span>+</span></div>
-          <div class="stat-label">Awards & Features</div>
+          <div class="stat-num">100K<span>+</span></div>
+          <div class="stat-label">AUDIENCE GROWTH</div>
         </div>
       </div>
     </div>
@@ -1646,7 +1840,7 @@
         <div class="about-visual-inner">
           <div class="about-visual-name">SUDIPTO CHAKRABORTY</div>
           <div class="about-visual-bar"></div>
-          <div class="about-visual-role">Video Editor & Storyteller</div>
+          <div class="about-visual-role">Senior Video Editor & Storyteller</div>
         </div>
         <div class="about-accent-box"></div>
       </div>
@@ -1654,7 +1848,7 @@
   </section>
 
   <!-- SERVICES -->
-  <section id="services">
+  <!-- <section id="services">
     <div class="section-label">05 — Services & Pricing</div>
     <h2 class="section-title reveal">THE OFFER</h2>
     <div class="services-grid reveal">
@@ -1692,7 +1886,7 @@
         Quote</a>
       for a tailored solution.
     </p>
-  </section>
+  </section> -->
 
   <!-- CONTACT -->
   <section id="contact">
@@ -1703,10 +1897,10 @@
         <p class="contact-tagline reveal">Have a project in mind? Let's build something great together. I typically
           respond within 24 hours.</p>
         <div class="reveal">
-          <div class="contact-detail"><span class="contact-dot"></span>Email: <a href="mailto:sudipto020@gmail.com">
-              sudipto020@gmail.com</a></div>
-          <div class="contact-detail"><span class="contact-dot"></span>Instagram: <a href="#">@yourhandle</a></div>
-          <div class="contact-detail"><span class="contact-dot"></span>Location: Your City, Country</div>
+          <div class="contact-detail"><span class="contact-dot"></span>Email: <a href="mailto:[sudipto2work@gmail.com]">
+              sudipto2work@gmail.com</a></div>
+
+          <div class="contact-detail"><span class="contact-dot"></span>Location: Bangalore, India</div>
           <div class="contact-detail"><span class="contact-dot"></span>Available for new projects</div>
         </div>
       </div>
@@ -1722,7 +1916,7 @@
               <input type="email" class="form-input" placeholder="your@email.com" required />
             </div>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label class="form-label">Project Type</label>
             <select class="form-input">
               <option value="">Select a service...</option>
@@ -1743,7 +1937,7 @@
               <option>$1,000 – $3,000</option>
               <option>$3,000+</option>
             </select>
-          </div>
+          </div> -->
           <div class="form-group">
             <label class="form-label">Message</label>
             <textarea class="form-input" placeholder="Tell me about your project..."></textarea>
@@ -1761,15 +1955,17 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">Sudipto Chakraborty</div>
-    <div class="footer-copy">© 2025 — All rights reserved</div>
+    <div class="footer-copy">© 2026 — All rights reserved</div>
     <div class="footer-links">
-      <a href="#">Instagram</a>
+      <a href="https://www.instagram.com/sudipto_0301/">Instagram</a>
       <a href="#">Vimeo</a>
       <a href="#">YouTube</a>
-      <a href="#">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/sudipto-editor/">LinkedIn</a>
     </div>
   </footer>
 
+  <!-- hls.js for m3u8 streaming (work item 03) -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
   <script>
     // CUSTOM CURSOR — desktop only
@@ -1808,19 +2004,172 @@
       });
     }
 
-    // WORK HOVER VIDEO PLAYBACK
-    document.querySelectorAll('.work-item').forEach(item => {
-      const vid = item.querySelector('.work-hover-video');
-      if (vid) {
-        item.addEventListener('mouseenter', () => {
-          vid.play().catch(() => { });
-        });
-        item.addEventListener('mouseleave', () => {
-          vid.pause();
-          vid.currentTime = 0;
-        });
+    // ── HLS lazy init for data-hls videos ──────────────────────
+    document.querySelectorAll('video[data-hls]').forEach(vid => {
+      const src = vid.dataset.hls;
+      let hlsAttached = false;
+      function attachHls() {
+        if (hlsAttached) return;
+        hlsAttached = true;
+        if (vid.canPlayType('application/vnd.apple.mpegurl')) {
+          // Safari: native HLS
+          vid.src = src;
+        } else if (Hls.isSupported()) {
+          const hls = new Hls({ startLevel: -1, autoStartLoad: false });
+          hls.loadSource(src);
+          hls.attachMedia(vid);
+          hls.on(Hls.Events.MANIFEST_PARSED, () => hls.startLoad());
+          vid._hls = hls;
+        }
+      }
+      // Attach on first hover/touch (work items) or immediately (reel cards)
+      const trigger = vid.closest('.work-item') || vid.closest('.reel-card');
+      if (vid.closest('.reel-card')) {
+        // Carousel cards are always visible — init straight away
+        attachHls();
+      } else if (trigger) {
+        trigger.addEventListener('mouseenter', attachHls, { once: true });
+        trigger.addEventListener('touchstart', attachHls, { once: true, passive: true });
       }
     });
+
+    // WORK HOVER VIDEO PLAYBACK + MUTE TOGGLE
+    const mutedSvg = '<svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>';
+    const unmutedSvg = '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';
+
+    document.querySelectorAll('.work-item').forEach(item => {
+      const vid = item.querySelector('.work-hover-video');
+      if (!vid) return;
+
+      // Inject mute button
+      const btn = document.createElement('button');
+      btn.className = 'vid-mute-btn';
+      btn.innerHTML = mutedSvg;
+      btn.title = 'Unmute';
+      vid.parentElement.appendChild(btn);
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        vid.muted = !vid.muted;
+        btn.innerHTML = vid.muted ? mutedSvg : unmutedSvg;
+        btn.title = vid.muted ? 'Unmute' : 'Mute';
+      });
+
+      // Desktop hover play
+      item.addEventListener('mouseenter', () => {
+        vid.play().catch(() => { });
+      });
+      item.addEventListener('mouseleave', () => {
+        vid.pause();
+        vid.currentTime = 0;
+        vid.muted = true;
+        btn.innerHTML = mutedSvg;
+        btn.title = 'Unmute';
+      });
+
+      // Mobile: show button when video is playing
+      if (isTouchDevice()) {
+        btn.classList.add('show');
+      }
+    });
+
+    // ── REEL CAROUSEL (one8 style) ──────────────────────────────
+    function initReelCarousel(carouselEl) {
+      if (!carouselEl) return;
+      const trackOuter = carouselEl.querySelector('.reel-carousel-track-outer');
+      const track = carouselEl.querySelector('.reel-carousel-track');
+      const cards = Array.from(carouselEl.querySelectorAll('.reel-card'));
+      const dots = Array.from(carouselEl.querySelectorAll('.reel-dot'));
+      const prevBtn = carouselEl.querySelector('.reel-nav-btn.prev');
+      const nextBtn = carouselEl.querySelector('.reel-nav-btn.next');
+      if (!cards.length) return;
+
+      let current = 0;
+      const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+
+      function goTo(idx) {
+        idx = Math.max(0, Math.min(cards.length - 1, idx));
+        current = idx;
+        const outerW = trackOuter.offsetWidth;
+        const cardW = cards[0].offsetWidth;
+        const slot = cards.length > 1
+          ? cards[1].offsetLeft - cards[0].offsetLeft
+          : cardW;
+        const tx = outerW / 2 - cards[0].offsetLeft - slot * current - cardW / 2;
+        track.style.transform = 'translateX(' + tx + 'px)';
+        cards.forEach((c, i) => c.classList.toggle('active', i === current));
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        // mobile: auto-play active video
+        if (isMobile()) {
+          cards.forEach((c, i) => {
+            const vid = c.querySelector('video');
+            if (!vid) return;
+            if (i === current) vid.play().catch(() => { });
+            else { vid.pause(); vid.currentTime = 0; }
+          });
+        }
+      }
+
+      // Start centered: if 3 cards → index 1 (both sides peek); if 2 cards → index 0
+      goTo(cards.length >= 3 ? 1 : 0);
+
+      if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
+      if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
+      dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+      // Touch swipe
+      let touchX = 0;
+      carouselEl.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+      carouselEl.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+
+      // Resize
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => goTo(current), 100);
+      }, { passive: true });
+
+      // Desktop: hover to play video on active card + mute toggle
+      cards.forEach((card, i) => {
+        const vid = card.querySelector('video');
+        if (vid) {
+          // Inject mute button into reel-card (same as work-item)
+          const btn = document.createElement('button');
+          btn.className = 'vid-mute-btn';
+          btn.innerHTML = mutedSvg;
+          btn.title = 'Unmute';
+          card.appendChild(btn);
+
+          // Show mute button on mobile always
+          if (isTouchDevice()) btn.classList.add('show');
+
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            vid.muted = !vid.muted;
+            btn.innerHTML = vid.muted ? mutedSvg : unmutedSvg;
+            btn.title = vid.muted ? 'Unmute' : 'Mute';
+          });
+
+          card.addEventListener('mouseenter', () => { if (!isMobile() && i === current) vid.play().catch(() => { }); });
+          card.addEventListener('mouseleave', () => {
+            if (!isMobile()) {
+              vid.pause();
+              vid.currentTime = 0;
+              vid.muted = true;
+              btn.innerHTML = mutedSvg;
+              btn.title = 'Unmute';
+            }
+          });
+        }
+        // Click inactive card to navigate
+        card.addEventListener('click', () => { if (i !== current) goTo(i); });
+      });
+    }
+
+    document.querySelectorAll('.reel-carousel').forEach(el => initReelCarousel(el));
 
     // SCROLL REVEAL
     const reveals = document.querySelectorAll('.reveal');
